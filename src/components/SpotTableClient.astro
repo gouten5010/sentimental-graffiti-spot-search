@@ -1,6 +1,5 @@
 ---
 import SpotTable from './SpotTable.astro';
-import type { Spot } from '../data/types';
 
 const { spots } = Astro.props;
 
@@ -10,7 +9,6 @@ if (!spots) {
 
 const regions = [...new Set(spots.map(s => s.region).filter(Boolean))].sort();
 
-// 都道府県定義
 const prefectures = [
     '北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県',
     '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県',
@@ -56,13 +54,38 @@ const sortedRegions = [
     </div>
 </div>
 
-<SpotTable {spots} />
+<!-- テーブル表示部 -->
+<div id="tableWrapper" class="invisible">
+    <SpotTable {spots} />
+</div>
 
 <script is:inline>
     document.addEventListener('DOMContentLoaded', () => {
         const regionFilter = document.getElementById('regionFilter');
         const keywordFilter = document.getElementById('keywordFilter');
         const rows = document.querySelectorAll('#spotTableBody tr');
+        const wrapper = document.getElementById('tableWrapper');
+
+        // URL パラメータ取得
+        const params = new URLSearchParams(location.search);
+        const initialRegion = params.get('region') || '';
+        const initialKeyword = params.get('keyword') || '';
+
+        // 初期値反映（※フィルター前に）
+        regionFilter.value = initialRegion;
+        keywordFilter.value = initialKeyword;
+
+        const updateURL = () => {
+            const region = regionFilter.value.trim();
+            const keyword = keywordFilter.value.trim();
+            const newParams = new URLSearchParams();
+
+            if (region) newParams.set('region', region);
+            if (keyword) newParams.set('keyword', keyword);
+
+            const newURL = `${location.pathname}${newParams.toString() ? '?' + newParams.toString() : ''}`;
+            history.replaceState(null, '', newURL);
+        };
 
         const filterRows = () => {
             const selectedRegion = regionFilter.value.trim();
@@ -77,9 +100,20 @@ const sortedRegions = [
 
                 row.style.display = matchRegion && matchKeyword ? '' : 'none';
             });
+
+            if (wrapper) wrapper.classList.remove('invisible');
         };
 
-        regionFilter.addEventListener('change', filterRows);
-        keywordFilter.addEventListener('input', filterRows);
+        regionFilter.addEventListener('change', () => {
+            updateURL();
+            filterRows();
+        });
+
+        keywordFilter.addEventListener('input', () => {
+            updateURL();
+            filterRows();
+        });
+
+        filterRows(); // 初回適用
     });
 </script>

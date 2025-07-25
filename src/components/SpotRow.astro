@@ -1,7 +1,5 @@
 ---
 // /src/components/SpotRow.astro
-import type { Spot } from '../data/types';
-
 const { spot } = Astro.props;
 if (!spot) {
   throw new Error('Missing `spot` prop in SpotRow.astro');
