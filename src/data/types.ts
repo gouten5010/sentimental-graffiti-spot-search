@@ -1,3 +1,4 @@
+// /src/data/types.ts
 export type Spot = {
   id: string;
   region: string;

@@ -1,3 +1,4 @@
+// /src/data/getSpots.ts
 import type { Spot } from './types';
 import { transformSpot } from '../utils/transformSpot';
 

@@ -1,3 +1,4 @@
+// /src/utils/transformSpot.ts
 import type { RawSpot, Spot } from '../data/types';
 
 export function transformSpot(raw: RawSpot): Spot {
