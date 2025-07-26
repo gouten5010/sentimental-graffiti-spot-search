@@ -23,12 +23,12 @@ export default function SpotRow({ spot, onImageClick }: Props)  {
             </td>
             <td className="block md:table-cell p-2 border-b border-x md:border-t border-gray-300 relative pl-28 md:pl-2 before:content-['スポット画像'] before:absolute before:left-2 before:font-bold md:before:content-none">
                 <img
-                    src={`${basePath}/cg_img/${spot.image}`}
+                    src={`${basePath}/assets/cg_img/${spot.image}`}
                     alt={`No.${spot.id}｜${spot.place}` || 'No Image'}
                     className="cursor-pointer"
                     onClick={() => {
                         if (onImageClick) {
-                            onImageClick(`${basePath}/cg_img/${spot.image}`, `No.${spot.id}｜${spot.place}`);
+                            onImageClick(`${basePath}/assets/cg_img/${spot.image}`, `No.${spot.id}｜${spot.place}`);
                         }
                     }}
                 />
