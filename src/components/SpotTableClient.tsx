@@ -3,11 +3,8 @@
 
 import { useEffect, useState } from 'react';
 import SpotTable from './SpotTable';
-import type { Spot } from '../data/types';
-
-type Props = {
-    spots: Spot[];
-};
+import type { Spot, RawSpot } from '../data/types';
+import { transformSpot } from '../utils/transformSpot';
 
 const prefectures = [
     '北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県',
@@ -22,9 +19,25 @@ const prefectures = [
 ];
 const trailing = ['未発見', '検証中'];
 
-export default function SpotTableClient({ spots }: Props) {
+export default function SpotTableClient() {
+    const [spots, setSpots] = useState<Spot[]>([]);
     const [region, setRegion] = useState('');
     const [keyword, setKeyword] = useState('');
+
+    const SHEET_URL = process.env.NEXT_PUBLIC_SHEET_URL;
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const res = await fetch(SHEET_URL!);
+                const raw: RawSpot[] = await res.json();
+                setSpots(raw.map(transformSpot));
+            } catch (err) {
+                console.error('Failed to fetch spots:', err);
+            }
+        }
+        fetchData();
+    }, []);
 
     const sortedRegions = (() => {
         const allRegions = [...new Set(spots.map((s) => s.region).filter(Boolean))];
