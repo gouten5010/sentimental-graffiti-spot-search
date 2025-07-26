@@ -20,6 +20,7 @@ You can access `http://localhost:3000/SgSpot_list`
 npm run build 
 ```
 `out` directory will be created automatically.
+You need rename directory name to `SgSpot_list` from `out`.
 
 You can upload next file and directories.
 - _next [dir]
