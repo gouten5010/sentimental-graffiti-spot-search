@@ -2,7 +2,7 @@
 import React from 'react';
 import '../styles/tailwind.css'; // パスは適宜調整
 
-export const metadata = {
+export const metadata: { title: string } = {
     title: 'Sentimental Spot',
 };
 

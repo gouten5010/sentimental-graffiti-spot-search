@@ -1,7 +1,7 @@
 // /app/page.tsx
 import SpotTableClient from '../components/SpotTableClient';
 
-export const metadata = {
+export const metadata: { title: string; description: string } = {
     title: 'センチメンタルグラフティ データ・スポット',
     description: ''
 };
