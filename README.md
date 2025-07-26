@@ -1,6 +1,10 @@
-### Needs
+### Use
+* Next.js / React
+* Node / npm
+* Tailwind CSS
 
-- Volta [ How to install -> [https://volta.sh/](https://volta.sh/) ]
+### Needs
+* Volta [ How to install -> [https://volta.sh/](https://volta.sh/) ]
 
 ### Edit Data
 1. Go to Discord.
