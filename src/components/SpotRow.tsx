@@ -1,3 +1,4 @@
+// /src/components/SpotRow.tsx
 import React from 'react';
 import type { Spot } from '../data/types';
 
@@ -8,13 +9,20 @@ type Props = {
     onImageClick?: (src: string, alt: string) => void;
 };
 
-export default function SpotRow({ spot, onImageClick }: Props)  {
+export default function SpotRow({ spot, onImageClick }: Props) {
     if (!spot) {
         throw new Error('Missing `spot` prop in SpotRow');
     }
 
+    const rowClass =
+        spot.region === '未発見'
+            ? 'bg-gray-200'
+            : spot.region === '検証中'
+            ? 'bg-orange-200'
+            : '';
+
     return (
-        <tr className="block md:table-row mb-4 md:mb-0">
+        <tr className={`block md:table-row mb-4 md:mb-0 ${rowClass}`}>
             <td className="block md:table-cell p-2 border border-gray-300 relative pl-28 md:pl-2 before:content-['番号'] before:absolute before:left-2 before:font-bold md:before:content-none">
                 No.{spot.id}
             </td>
