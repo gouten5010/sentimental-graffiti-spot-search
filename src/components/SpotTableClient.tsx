@@ -1,4 +1,3 @@
-// /src/components/SpotTableClient.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -23,18 +22,21 @@ export default function SpotTableClient() {
     const [spots, setSpots] = useState<Spot[]>([]);
     const [region, setRegion] = useState('');
     const [keyword, setKeyword] = useState('');
+    const [loading, setLoading] = useState(true); // 追加
 
     const SHEET_URL = process.env.NEXT_PUBLIC_SHEET_URL;
 
     useEffect(() => {
         async function fetchData() {
             try {
+                setLoading(true);
                 const res = await fetch(SHEET_URL!);
                 const raw: RawSpot[] = await res.json();
-                const transformed = raw.map(transformSpot);
-                setSpots(transformed);
+                setSpots(raw.map(transformSpot));
             } catch (err) {
                 console.error('Failed to fetch spots:', err);
+            } finally {
+                setLoading(false);
             }
         }
         fetchData();
@@ -72,6 +74,10 @@ export default function SpotTableClient() {
             (s.place?.toLowerCase().includes(lowerKeyword) ?? false);
         return matchRegion && matchKeyword;
     });
+
+    if (loading) {
+        return <p className="p-4 text-gray-600">Loading Data...</p>;
+    }
 
     return (
         <>
