@@ -31,7 +31,8 @@ export default function SpotTableClient() {
             try {
                 const res = await fetch(SHEET_URL!);
                 const raw: RawSpot[] = await res.json();
-                setSpots(raw.map(transformSpot));
+                const transformed = raw.map(transformSpot);
+                setSpots(transformed);
             } catch (err) {
                 console.error('Failed to fetch spots:', err);
             }
